@@ -23,21 +23,35 @@ OPTIONS="-h"
 
 root@vagrant:/home/vagrant# systemctl daemon-reload
 root@vagrant:/home/vagrant# systemctl start node_exporter
-root@vagrant:/home/vagrant# systemctl status node_exporter
+vagrant@vagrant:~$ sudo systemctl enable node_exporter
+Created symlink /etc/systemd/system/multi-user.target.wants/node_exporter.service → /etc/systemd/system/node_exporter.service.
+vagrant@vagrant:~$ sudo systemctl status node_exporter
 ● node_exporter.service - Node Exporter
-     Loaded: loaded (/etc/systemd/system/node_exporter.service; static; vendor preset: enabled)
-     Active: inactive (dead)
+     Loaded: loaded (/etc/systemd/system/node_exporter.service; enabled; vendor preset: enabled)
+     Active: active (running) since Tue 2022-06-28 18:50:16 UTC; 7s ago
+   Main PID: 2084 (node_exporter)
+      Tasks: 5 (limit: 2278)
+     Memory: 2.5M
+     CGroup: /system.slice/node_exporter.service
+             └─2084 /usr/local/bin/node_exporter
 
 После vagrant reload
 
 vagrant@vagrant:~$ sudo systemctl status node_exporter
+vagrant@vagrant:~$ sudo systemctl status node_exporter
 ● node_exporter.service - Node Exporter
-     Loaded: loaded (/etc/systemd/system/node_exporter.service; static; vendor preset: enabled)
-     Active: inactive (dead)
+     Loaded: loaded (/etc/systemd/system/node_exporter.service; enabled; vendor preset: enabled)
+     Active: active (running) since Tue 2022-06-28 19:10:16 UTC; 7s ago
+   Main PID: 2084 (node_exporter)
+      Tasks: 5 (limit: 2278)
+     Memory: 2.5M
+     CGroup: /system.slice/node_exporter.service
+             └─3042 /usr/local/bin/node_exporter
 ```
 >2. Ознакомьтесь с опциями node_exporter и выводом `/metrics` по-умолчанию. Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети.
 ### Ответ
 ```bash
+
 ```
 
 >3. Установите в свою виртуальную машину [Netdata](https://github.com/netdata/netdata). Воспользуйтесь [готовыми пакетами](https://packagecloud.io/netdata/netdata/install) для установки (`sudo apt install -y netdata`). После успешной установки:
@@ -50,8 +64,13 @@ vagrant@vagrant:~$ sudo systemctl status node_exporter
 
     После успешной перезагрузки в браузере *на своем ПК* (не в виртуальной машине) вы должны суметь зайти на `localhost:19999`. Ознакомьтесь с метриками, которые по умолчанию собираются Netdata и с комментариями, которые даны к этим метрикам.
 ### Ответ
+
 ```bash
+root@vagrant:/home/vagrant# apt list netdata
+Listing... Done
+netdata/focal,now 1.19.0-3ubuntu1 all [installed]
 ```
+Ох, много чего собирается ))))
 
 >4. Можно ли по выводу `dmesg` понять, осознает ли ОС, что загружена не на настоящем оборудовании, а на системе виртуализации?
 ### Ответ
