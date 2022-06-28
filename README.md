@@ -56,9 +56,9 @@ vagrant@vagrant:~$ wget http://localhost:9100/metrics
 ```
 Можно выбрать
 ```
-node_cpu_seconds_total{cpu="*",mode="user"} 2.8
-node_cpu_seconds_total{cpu="*",mode="idle"} 1764.3
-node_cpu_seconds_total{cpu="*",mode="iowait"} 1.9
+node_cpu_seconds_total{cpu="*",mode="user"}
+node_cpu_seconds_total{cpu="*",mode="idle"} 
+node_cpu_seconds_total{cpu="*",mode="iowait"}
 node_memory_MemAvailable_bytes
 node_memory_MemFree_bytes
 node_disk_read_time_seconds_total
@@ -86,7 +86,15 @@ netdata/focal,now 1.19.0-3ubuntu1 all [installed]
 
 >4. Можно ли по выводу `dmesg` понять, осознает ли ОС, что загружена не на настоящем оборудовании, а на системе виртуализации?
 ### Ответ
+
+Видимо, да, осознает
 ```bash
+vagrant@vagrant:~$ dmesg | grep -i virt
+[    0.000000] DMI: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
+[    0.006701] CPU MTRRs all blank - virtualized system.
+[    0.053142] Booting paravirtualized kernel on KVM
+[    0.494018] Performance Events: PMU not available due to virtualization, using software events only.
+[   19.904456] systemd[1]: Detected virtualization oracle.
 ```
 
 >5. Как настроен sysctl `fs.nr_open` на системе по-умолчанию? Узнайте, что означает этот параметр. Какой другой существующий лимит не позволит достичь такого числа (`ulimit --help`)?
