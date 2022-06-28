@@ -8,6 +8,32 @@
     * удостоверьтесь, что с помощью systemctl процесс корректно стартует, завершается, а после перезагрузки автоматически поднимается.
 ### Ответ
 ```bash
+root@vagrant:/home/vagrant# cat /etc/systemd/system/node_exporter.service
+[Unit]
+Description=Node Exporter
+[Service]
+User=node_exporter
+Group=node_exporter
+Type=simple
+EnvironmentFile=-/etc/default/node_exporter
+ExecStart=/usr/local/bin/node_exporter $OPTIONS
+root@vagrant:/home/vagrant# cat /etc/default/node_exporter
+####Test config for Node Exporter
+OPTIONS="-h"
+
+root@vagrant:/home/vagrant# systemctl daemon-reload
+root@vagrant:/home/vagrant# systemctl start node_exporter
+root@vagrant:/home/vagrant# systemctl status node_exporter
+● node_exporter.service - Node Exporter
+     Loaded: loaded (/etc/systemd/system/node_exporter.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+
+После vagrant reload
+
+vagrant@vagrant:~$ sudo systemctl status node_exporter
+● node_exporter.service - Node Exporter
+     Loaded: loaded (/etc/systemd/system/node_exporter.service; static; vendor preset: enabled)
+     Active: inactive (dead)
 ```
 >2. Ознакомьтесь с опциями node_exporter и выводом `/metrics` по-умолчанию. Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети.
 ### Ответ
