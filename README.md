@@ -143,8 +143,21 @@ bomb() {
 bomb
 ```
 В результате запуска 
+```bash
+
+vagrant@vagrant:~$ tail -f /var/log/syslog
+Jul  1 16:15:40 vagrant kernel: [  153.054655] cgroup: fork rejected by pids controller in /user.slice/user-1000.slice/session-1.scope
+```
+ ulimit [-HSabcdefiklmnpqrstuvxPT [limit]]
+              Provides control over the resources available to the shell and to processes started by it,  on  systems
+              that  allow  such  control.
+              ...............
+                  -u     The maximum number of processes available to a single user
+                  
+
 Лимит задан как
 ```bash
-root@vagrant:/# ulimit -u
+vagrant@vagrant:~$ ulimit -u
 7595
 ```
+Этот лимит можно менять через **/etc/security/limits.conf**
