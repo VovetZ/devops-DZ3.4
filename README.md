@@ -117,6 +117,17 @@ vagrant@vagrant:~$ ulimit --help | grep open
 6>. Запустите любой долгоживущий процесс (не `ls`, который отработает мгновенно, а, например, `sleep 1h`) в отдельном неймспейсе процессов; покажите, что ваш процесс работает под PID 1 через `nsenter`. Для простоты работайте в данном задании под root (`sudo -i`). Под обычным пользователем требуются дополнительные опции (`--map-root-user`) и т.д.
 ### Ответ
 ```bash
+root@vagrant:/home/vagrant# unshare -f --pid --mount-proc tail -f /etc/hosts &
+[1] 3074
+root@vagrant:/home/vagrant# ps -ef  | grep tail | grep hosts
+root        3074    3067  0 15:59 pts/1    00:00:00 unshare -f --pid --mount-proc tail -f /etc/hosts
+root        3075    3074  0 15:59 pts/1    00:00:00 tail -f /etc/hosts
+root@vagrant:/home/vagrant# nsenter --target 3075 --pid --mount
+root@vagrant:/# ps aux
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.0   5512   592 pts/1    S    15:59   0:00 tail -f /etc/hosts
+root           2  0.0  0.2   7236  4084 pts/1    S    16:01   0:00 -bash
+root          13  0.0  0.1   8892  3408 pts/1    R+   16:01   0:00 ps aux
 ```
 
 7>. Найдите информацию о том, что такое `:(){ :|:& };:`. Запустите эту команду в своей виртуальной машине Vagrant с Ubuntu 20.04 (**это важно, поведение в других ОС не проверялось**). Некоторое время все будет "плохо", после чего (минуты) – ОС должна стабилизироваться. Вызов `dmesg` расскажет, какой механизм помог автоматической стабилизации. Как настроен этот механизм по-умолчанию, и как изменить число процессов, которое можно создать в сессии?
